@@ -8,6 +8,6 @@ def index_page(request):
 def logginpage(request):
     context = {}
     if request.method == 'POST':
-
-        return redirect(request, 'index.html')
+        if request.POST.get('username') == 'pro' and request.POST.get('password') == 'pro':
+            return redirect('index_page')
     return render(request, 'loggin.html', context)
