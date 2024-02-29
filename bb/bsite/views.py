@@ -10,6 +10,10 @@ def index_page(request):
     return render(request, 'index.html')
 
 
+def master_page(request):
+    return render(request, 'master_page.html')
+
+
 def logginpage(request):
     context = {}
     if request.method == 'POST':
@@ -31,10 +35,11 @@ def logginpage(request):
                 if user is None:
                     user = User.objects.create_user(username=master.name, password=master.password)
                 login(request, user)
-                return redirect('index_page')
+                return redirect('master_page')
 
             except ObjectDoesNotExist:
                 ...
+    messages.success(request, 'Имя пользователя или пароль не найдены!')
     return render(request, 'loggin.html', context)
 
 

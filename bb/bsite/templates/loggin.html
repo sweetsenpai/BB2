@@ -16,6 +16,16 @@
         <div class="shape"></div>
     </div>
     <form method="post">{% csrf_token %}
+                {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                  <p><h4 class="alert-heading" style="color:red;">Ошибка!</h4><p>
+                  <p style="color:Orange;"> {{message}}</p>
+                  <hr>
+                </div>
+
+            {% endfor %}
+        {% endif %}
         <h3>Войти в аккаунт</h3>
 
         <label for="username">Имя пользователя</label>
