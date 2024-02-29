@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 import secrets
 import string
 
@@ -33,7 +34,6 @@ class Masters(models.Model):
     vk = models.CharField(max_length=20, help_text='Ник или ссылка на vk', default=None, null=True, blank=True)
     password = models.CharField(max_length=20, editable=False, unique=True)
     visability = models.BooleanField(default=False)
-# TODO  uncommit password, add password to __str__, write class method: https://docs.djangoproject.com/en/5.0/ref/models/instances/#creating-objects
 
     def __str__(self):
         return f'{self.master_id}, {self.sub_master}, {self.name}, {self.specialization}, {self.phone}, {self.address}, {self.tg}, \
@@ -47,3 +47,12 @@ class Images(models.Model):
 
     def __str__(self):
         return f'{self.img_id}, {self.master_img}, {self.img_path}'
+
+
+class Admin(models.Model):
+    admin_id = models.AutoField(primary_key=True)
+    admin_name = models.CharField(max_length=200, help_text='Имя')
+    admin_password = models.CharField(max_length=20, help_text='Пароль')
+
+    def __str__(self):
+        return f'{self.admin_id}, {self.admin_name}, {self.admin_password}'
