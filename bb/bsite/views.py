@@ -11,6 +11,7 @@ def index_page(request):
 
 
 def master_page(request):
+    print(request.user.password)
     return render(request, 'master_page.html')
 
 
@@ -28,7 +29,7 @@ def logginpage(request):
                 login(request, user)
                 return redirect('index_page')
             except ObjectDoesNotExist:
-                ...
+                messages.success(request, 'Имя пользователя или пароль не найдены!')
             try:
                 master = Masters.objects.filter(name=username).filter(password=password).get()
                 user = authenticate(username=master.name, password=master.password)
@@ -38,8 +39,7 @@ def logginpage(request):
                 return redirect('master_page')
 
             except ObjectDoesNotExist:
-                ...
-    messages.success(request, 'Имя пользователя или пароль не найдены!')
+                messages.success(request, 'Имя пользователя или пароль не найдены!')
     return render(request, 'loggin.html', context)
 
 
