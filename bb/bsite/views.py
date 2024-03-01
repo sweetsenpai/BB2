@@ -7,12 +7,21 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def index_page(request):
-    return render(request, 'index.html')
+    if request.user.is_superuser:
+        return render(request, 'index.html')
+    else:
+        return redirect('not_authorized')
+
+
+def not_authorized(request):
+    return render(request, 'not_authorized.html')
 
 
 def master_page(request):
-    print(request.user.password)
-    return render(request, 'master_page.html')
+    if request.user.is_superuser or request.user.is_authenticated:
+        return render(request, 'master_page.html')
+    else:
+        return redirect('not_authorized')
 
 
 def logginpage(request):
@@ -23,27 +32,26 @@ def logginpage(request):
             password = request.POST.get('password')
             try:
                 admin = Admin.objects.filter(admin_name=username).filter(admin_password=password).get()
-                user = authenticate(username=admin.name, password=admin.password)
+                user = authenticate(username=admin.admin_name, password=admin.admin_password)
                 if user is None:
-                    User.objects.create_superuser(username=admin.name, password=admin.password)
+                    User.objects.create_superuser(username=admin.admin_name, password=admin.admin_password)
                 login(request, user)
                 return redirect('index_page')
             except ObjectDoesNotExist:
-                messages.success(request, 'Имя пользователя или пароль не найдены!')
-            try:
-                master = Masters.objects.filter(name=username).filter(password=password).get()
-                user = authenticate(username=master.name, password=master.password)
-                if user is None:
-                    user = User.objects.create_user(username=master.name, password=master.password)
-                login(request, user)
-                return redirect('master_page')
+                try:
+                    master = Masters.objects.filter(name=username).filter(password=password).get()
+                    user = authenticate(username=master.name, password=master.password)
+                    if user is None:
+                        user = User.objects.create_user(username=master.name, password=master.password)
+                    login(request, user)
+                    return redirect('master_page')
 
-            except ObjectDoesNotExist:
-                messages.success(request, 'Имя пользователя или пароль не найдены!')
+                except ObjectDoesNotExist:
+                    messages.success(request, 'Имя пользователя или пароль не найдены!')
     return render(request, 'loggin.html', context)
 
 
-# TODO ПРАВА
+
 # TODO ЗАГРУЗКА ДАННЫХ ИЗ БД
 # TODO ЛИЧНАЯ СТРАНИЦА
 # TODO ЗАГРУЗКА СООБЩЕНИЙ
