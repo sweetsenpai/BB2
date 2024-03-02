@@ -25,7 +25,7 @@ class Masters(models.Model):
     master_id = models.AutoField(primary_key=True)
     sub_master = models.ForeignKey(Subcategories, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, help_text='Имя')
-    specialization = models.CharField(max_length=500, help_text='Имя', default=None, null=True, blank=True)
+    info = models.CharField(max_length=500, help_text='Дополнительная информация', default=None, null=True, blank=True)
     phone = models.CharField(max_length=10, help_text='Контактный номер телефона', default=None, null=True, blank=True)
     address = models.CharField(max_length=500, help_text='Адрес, при наличии', default=None, null=True, blank=True)
     tg = models.CharField(max_length=20, help_text='Ник или ссылка на telegram', default=None, null=True, blank=True)

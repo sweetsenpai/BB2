@@ -24,6 +24,22 @@ def master_page(request):
         return redirect('not_authorized')
 
 
+def subcat(request):
+    return render(request, 'subcat.html')
+
+
+def masters(request):
+    return render(request, 'masters.html')
+
+
+def images(request):
+    return render(request, 'images.html')
+
+
+def base(request):
+    return render(request, 'base.html')
+
+
 def logginpage(request):
     context = {}
     if request.method == 'POST':
@@ -50,11 +66,9 @@ def logginpage(request):
                     messages.success(request, 'Имя пользователя или пароль не найдены!')
     return render(request, 'loggin.html', context)
 
-
-
 # TODO ЗАГРУЗКА ДАННЫХ ИЗ БД
 # TODO ЛИЧНАЯ СТРАНИЦА
-# TODO ЗАГРУЗКА СООБЩЕНИЙ
+
 # TODO ХОСТИНГ
 # TODO SSL
 
