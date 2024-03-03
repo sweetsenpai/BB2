@@ -2,15 +2,19 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Masters, Admin
+from .models import Categories, Subcategories, Masters, Images, Admin
 from django.core.exceptions import ObjectDoesNotExist
+from django.template import loader
+from django.http import HttpResponse
 
 
 def index_page(request):
-    if request.user.is_superuser:
-        return render(request, 'index.html')
-    else:
+    if not request.user.is_superuser:
         return redirect('not_authorized')
+    records = {'cat': Categories.objects.all().values()}
+    template = loader.get_template('index.html')
+    print(records)
+    return HttpResponse(template.render(records, request))
 
 
 def not_authorized(request):

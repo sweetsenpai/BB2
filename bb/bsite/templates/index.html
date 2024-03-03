@@ -2,4 +2,25 @@
 {% block title %} Категории{% endblock %}
 {% block href1 %} active {% endblock href1 %}
 
-{% block content %} Категории {% endblock %}
+
+{% block content %}
+  <div class="table-responsive">
+        <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Категория</th>
+<!--          <th scope="col">Действия</th>-->
+        </tr>
+      </thead>
+      <tbody>
+        {% for x in cat %}
+          <tr>
+              <td>{{ x.cat_id }}</td>
+              <td>{{ x.cat_name }}</td>>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
