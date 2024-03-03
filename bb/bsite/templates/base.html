@@ -7,7 +7,6 @@
         opacity: 1;
 
       }
-
       body{
         background-color: #3366CC; /* Цвет фона веб-страницы */
        }
@@ -22,6 +21,8 @@
       <link rel = "icon" href = "{% static 'images/flower-svgrepo-com.svg' %}" type = "image/x-icon">
           {% load static %}
     <link rel="stylesheet" href="{% static 'css/nav.css' %}" >
+                {% load static %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}" >
     <title>{% block title %}{% endblock title %}</title>
   </head>
   <body>

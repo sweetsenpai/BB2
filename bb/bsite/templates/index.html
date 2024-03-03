@@ -2,23 +2,45 @@
 {% block title %} Категории{% endblock %}
 {% block href1 %} active {% endblock href1 %}
 
-
 {% block content %}
   <div class="table-responsive">
-        <table class="table table-hover table-dark">
+        <table class="table table-sm table-hover table-dark">
       <thead>
+        <tr>
+            <th colspan="4">
+                <form method="post">{% csrf_token %}
+                      <div class="input-group mb-3">
+                        <input type="text" name="data" class="form-control" placeholder="Добавить новую запись" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button  type="submit" class="btn btn-success" name='add_button'>Добавить</button>
+                        </div>
+                      </div>
+                </form>
+            </th>
+      </tr>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Категория</th>
-<!--          <th scope="col">Действия</th>-->
+          <th scope="col">Изменить</th>
+          <th scope="col">Удалить</th>
         </tr>
       </thead>
       <tbody>
         {% for x in cat %}
+
           <tr>
-              <td>{{ x.cat_id }}</td>
-              <td>{{ x.cat_name }}</td>>
+              <form  method="post">{% csrf_token %}
+                  <td><button type="button" class="btn btn-info" style="text-align:justify">{{ x.cat_id }}</button></td>
+                  <td><input type="text" name="newdata" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{ x.cat_name }}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
+                  <td>
+                      <button type="submit" name='change_button' class="btn btn-warning" value='{{ x.cat_id}}'>Изменить</button>
+                  </td>
+                  <td>
+                       <button type="submit" name="delete_button" class="btn btn-danger" value='{{ x.cat_id}}'>Удалить</button>
+                  </td>
+              </form>
           </tr>
+
         {% endfor %}
       </tbody>
     </table>

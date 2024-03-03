@@ -5,15 +5,28 @@ from django.contrib import messages
 from .models import Categories, Subcategories, Masters, Images, Admin
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def index_page(request):
     if not request.user.is_superuser:
         return redirect('not_authorized')
-    records = {'cat': Categories.objects.all().values()}
+
+    records = {'cat': Categories.objects.all().order_by('cat_id').values()}
     template = loader.get_template('index.html')
-    print(records)
+
+    if request.method == 'POST':
+        if request.POST.get('delete_button') is not None:
+            Categories.objects.get(cat_id=request.POST.get('delete_button')).delete()
+        elif request.POST.get('change_button') is not None:
+            cat_update = Categories.objects.get(cat_id=request.POST.get('change_button'))
+            cat_update.cat_name = request.POST.get('newdata')
+            cat_update.save()
+        elif request.POST.get('add_button') is not None:
+            if request.POST.get('data') != '':
+                new_cat = Categories(cat_name=request.POST.get('data'))
+                new_cat.save()
+        return HttpResponseRedirect('/', request)
     return HttpResponse(template.render(records, request))
 
 
@@ -38,10 +51,6 @@ def masters(request):
 
 def images(request):
     return render(request, 'images.html')
-
-
-def base(request):
-    return render(request, 'base.html')
 
 
 def logginpage(request):
