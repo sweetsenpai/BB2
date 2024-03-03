@@ -30,7 +30,11 @@
 
           <tr>
               <form  method="post">{% csrf_token %}
-                  <td><button type="button" class="btn btn-info" style="text-align:justify">{{ x.cat_id }}</button></td>
+                  <td>
+                      <a href="subcategories">
+                        <button type="button" class="btn btn-info" style="text-align:justify">{{ x.cat_id }}</button>
+                      </a>
+                  </td>
                   <td><input type="text" name="newdata" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{ x.cat_name }}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
                   <td>
                       <button type="submit" name='change_button' class="btn btn-warning" value='{{ x.cat_id}}'>Изменить</button>
