@@ -30,25 +30,24 @@ def index_page(request):
     return HttpResponse(template.render(records, request))
 
 
-def subcat(request):
+def subcat_all(request):
     if not request.user.is_superuser:
         return redirect('not_authorized')
 
-    records = {'sub_cat': Subcategories.objects.all().order_by('sub_id').values()}
+    records = {'sub_cat': Subcategories.objects.select_related("catigories").all().order_by('sub_id').values()}
     template = loader.get_template('subcat.html')
-
     if request.method == 'POST':
         if request.POST.get('delete_button') is not None:
             Subcategories.objects.get(sub_id=request.POST.get('delete_button')).delete()
         elif request.POST.get('change_button') is not None:
-            cat_update = Subcategories.objects.get(sub_id=request.POST.get('change_button'))
-            cat_update.subcat_name = request.POST.get('newname')
-            cat_update.save()
+            subcat_update = Subcategories.objects.get(sub_id=request.POST.get('change_button'))
+            subcat_update.sub_name = request.POST.get('newdata')
+            subcat_update.save()
         elif request.POST.get('add_button') is not None:
             if request.POST.get('data') != '':
                 new_subcat = Categories(cat_name=request.POST.get('data'))
                 new_subcat.save()
-        return HttpResponseRedirect('/', request)
+        return HttpResponseRedirect('subcat', request)
     return HttpResponse(template.render(records, request))
 
 
@@ -67,9 +66,6 @@ def master_page(request):
         return render(request, 'master_page.html')
     else:
         return redirect('not_authorized')
-
-
-
 
 
 def masters(request):
