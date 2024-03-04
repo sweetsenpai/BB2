@@ -7,7 +7,7 @@ urlpatterns = [
     path('master', views.master_page, name='master_page'),
     path('error', views.not_authorized, name='not_authorized'),
     path('subcat', views.subcat_all, name='subcat_all'),
-#    path('subcategories/<int:pk>', views.subcat_dv, name='subcat'),
+    path('subcategories/<int:pk>', views.subcat_dv, name='subcats'),
     path('masters', views.masters, name='masters'),
     path('images', views.images, name='images')
 ]

@@ -31,7 +31,7 @@
           <tr>
               <form  method="post">{% csrf_token %}
                   <td>
-                      <a href="subcat">
+                      <a href="subcategories/{{ x.cat_id }}">
                         <button type="button" class="btn btn-info" style="text-align:justify">{{ x.cat_id }}</button>
                       </a>
                   </td>
