@@ -75,10 +75,6 @@ def subcat_dv(request, pk):
     return HttpResponse(template.render(records, request))
 
 
-def not_authorized(request):
-    return render(request, 'not_authorized.html')
-
-
 def master_page(request):
     if request.user.is_superuser or request.user.is_authenticated:
         return render(request, 'master_page.html')
@@ -87,6 +83,13 @@ def master_page(request):
 
 
 def masters(request):
+    records = {'masters': Masters.objects.all().values()}
+    print(records['masters'][0]['sub_master_id'])
+    template = loader.get_template('masters.html')
+    return HttpResponse(template.render(records, request))
+
+
+def masters_dv(request, pk):
     return render(request, 'masters.html')
 
 
@@ -119,6 +122,9 @@ def logginpage(request):
                 except ObjectDoesNotExist:
                     messages.success(request, 'Имя пользователя или пароль не найдены!')
     return render(request, 'loggin.html', context)
+
+def not_authorized(request):
+    return render(request, 'not_authorized.html')
 
 # TODO ЗАГРУЗКА ДАННЫХ ИЗ БД
 # TODO ЛИЧНАЯ СТРАНИЦА

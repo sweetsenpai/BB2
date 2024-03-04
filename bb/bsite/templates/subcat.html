@@ -19,12 +19,10 @@
           <tr>
               <form  method="post">{% csrf_token %}
                   <td>
-                      <a href="subcategories">
+                      <a href="/masters/{{ x.sub_id}}">
                         <button type="button" class="btn btn-info" style="text-align:justify">{{ x.sub_id }}</button>
                       </a>
-                  <td>
-                      {{x.sub_cat_id}}
-                  </td>
+                  <td><input type="text" readonly name="newdata" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{x.sub_cat_id}}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
                   </td>
                   <td><input type="text" name="newdata" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{ x.sub_name }}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
                   <td>
