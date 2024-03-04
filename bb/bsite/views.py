@@ -84,8 +84,10 @@ def master_page(request):
 
 def masters(request):
     records = {'masters': Masters.objects.all().values()}
-    print(records['masters'][0]['sub_master_id'])
     template = loader.get_template('masters.html')
+    if request.method == 'POST':
+        if request.POST.get('delete_button') is not None:
+            Masters.objects.get(master_id=request.POST.get('delete_button')).delete()
     return HttpResponse(template.render(records, request))
 
 

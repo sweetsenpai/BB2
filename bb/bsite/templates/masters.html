@@ -12,7 +12,6 @@
           <th scope="col">Имя</th>
           <th scope="col" >Пароль</th>
           <th scope="col">Видимость</th>
-          <th scope="col">Изменить</th>
           <th scope="col">Удалить</th>
         </tr>
       </thead>
@@ -38,10 +37,7 @@
                         </div>
                   </td>
                   <td>
-                      <button type="submit" name='change_button' class="btn btn-warning" value='{{ x.sub_id}}'>Изменить</button>
-                  </td>
-                  <td>
-                       <button type="submit" name="delete_button" class="btn btn-danger" value='{{ x.sub_id}}'>Удалить</button>
+                       <button type="submit" name="delete_button" class="btn btn-danger" value='{{ x.master_id}}'>Удалить</button>
                   </td>
               </form>
           </tr>
