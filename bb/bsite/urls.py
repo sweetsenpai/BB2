@@ -9,5 +9,6 @@ urlpatterns = [
     path('subcat', views.subcat_all, name='subcat_all'),
     path('subcategories/<int:pk>', views.subcat_dv, name='subcats'),
     path('masters', views.masters, name='masters'),
+    path('masters/<int:pk>', views.masters_dv, name='masters_dv'),
     path('images', views.images, name='images')
 ]

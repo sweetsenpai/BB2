@@ -5,8 +5,8 @@
 {% block content %}
   <div class="table-responsive">
         <table class="table table-sm table-hover table-dark">
-      <thead>
-      <tr>
+<thead>
+        <tr>
             <th colspan="4">
                 <form method="post">{% csrf_token %}
                       <div class="input-group mb-3">
@@ -20,7 +20,6 @@
       </tr>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Категория_id</th>
           <th scope="col">Подкатегория</th>
           <th scope="col">Изменить</th>
           <th scope="col">Удалить</th>
@@ -31,10 +30,9 @@
           <tr>
               <form  method="post">{% csrf_token %}
                   <td>
-                      <a href="/masters/{{ x.sub_id }}">
+                      <a href="/bsite/masters/{{ x.sub_id }}">
                         <button type="button" class="btn btn-info" style="text-align:justify">{{ x.sub_id }}</button>
                       </a>
-                  <td><input type="text" readonly name="newname" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{x.sub_cat_id}}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
                   </td>
                   <td><input type="text" name="newname" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{ x.sub_name }}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
                   <td>
