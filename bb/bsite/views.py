@@ -83,13 +83,6 @@ def subcat_dv(request, pk):
     return HttpResponse(template.render(records, request))
 
 
-def master_page(request):
-    if request.user.is_superuser or request.user.is_authenticated:
-        return render(request, 'master_page.html')
-    else:
-        return redirect('not_authorized')
-
-
 def masters(request):
     records = {'masters': Masters.objects.prefetch_related()}
     template = loader.get_template('masters.html')
@@ -143,6 +136,14 @@ def masters_dv(request, pk):
     return HttpResponse(template.render(records, request))
 
 
+def master_page(request, pk):
+
+    if request.user.is_superuser or request.user.is_authenticated:
+        return render(request, 'master_page.html')
+    else:
+        return redirect('not_authorized')
+
+
 def images(request):
     return render(request, 'images.html')
 
@@ -150,6 +151,7 @@ def images(request):
 def logginpage(request):
     context = {}
     if request.method == 'POST':
+        print('---------------------------')
         if request.POST.get('username') is not None and request.POST.get('password') is not None:
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -177,12 +179,9 @@ def logginpage(request):
 def not_authorized(request):
     return render(request, 'not_authorized.html')
 
-# TODO СДЕЛАТЬ ВИДИМОСТЬ РАБОТАЮЩЕЙ
-# TODO СДЕЛАТЬ ИМЕНА МАСТЕРОВ В MASTERS ССЫЛКОЙ НА ЛИЧНУЮ СТРАНИЦУ
-# TODO ЛИЧНАЯ СТРАНИЦА
-# TODO ИЗМЕНИТЬ БД НА MtoM в master subcat
 
-# TODO СДЕЛАТЬ ВМЕСТО ID НАЗВАНИЕ КАТЕГОРИЙ
+# TODO ЛИЧНАЯ СТРАНИЦА
+# TODO ЗАГРУЗКА ПИКЧ
 # TODO ХОСТИНГ
 # TODO SSL
 

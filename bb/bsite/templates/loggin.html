@@ -1,40 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Design by foolishdeveloper.com -->
-    <title>Loggin</title>
+	<title>Login V5</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% load static %}
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico'%}"/>
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/loggin.css' %}" >
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css'%}">
+
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css'%}">
+
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css'%}">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css'%}">
+<!--===============================================================================================-->
 </head>
 <body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    <form method="post">{% csrf_token %}
-                {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success" role="alert">
-                  <p><h4 class="alert-heading" style="color:red;">Ошибка!</h4><p>
-                  <p style="color:Orange;"> {{message}}</p>
-                  <hr>
-                </div>
+    <form method="post"> {% csrf_token %}
+	<div class="limiter">
+		{% load static %}
+		<div class="container-login100" style="background-image: url('{% static 'images/bg-01.jpg'%}');">
+			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+				<form class="login100-form validate-form flex-sb flex-w">
+					<span class="login100-form-title p-b-53">
+						Вход
+					</span>
+					{% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-danger" role="alert">
+							  <p><h4>Ошибка!</h4><p>
+							  <p > {{message}}</p>
+							  <hr>
+							</div>
 
-            {% endfor %}
-        {% endif %}
-        <h3>Войти в аккаунт</h3>
+						{% endfor %}
+					{% endif %}
+					<div class="p-t-31 p-b-9">
+						<span class="txt1">
+							Имя пользователя
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Username is required">
+						<input class="input100" type="text" name="username" id="username">
+						<span class="focus-input100"></span>
+					</div>
 
-        <label for="username">Имя пользователя</label>
-        <input type="text" placeholder="Имя" id="username" name="username">
+					<div class="p-t-13 p-b-9">
+						<span class="txt1">
+							Пароль
+						</span>
 
-        <label for="password">Пароль</label>
-        <input type="password" placeholder="Пароль" id="password" name="password">
+						<a href="#" class="txt2 bo1 m-l-5">
+							Forgot?
+						</a>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" name="password" id="password" >
+						<span class="focus-input100"></span>
+					</div>
 
-        <button type="submit">Войти</button>
+					<div class="container-login100-form-btn m-t-17">
+						<button type="submit" class="login100-form-btn">
+							Sign In
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
     </form>
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/animsition/js/animsition.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/bootstrap/js/popper.js'%}"></script>
+	{% load static %}
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/select2/select2.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/daterangepicker/moment.min.js'%}"></script>
+	{% load static %}
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/countdowntime/countdowntime.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'js/main.js'%}"></script>
+
 </body>
 </html>

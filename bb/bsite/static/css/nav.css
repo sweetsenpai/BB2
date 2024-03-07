@@ -1,16 +1,14 @@
 .nav-pills {
-  background-color: #E72CD3;
+  background-color:#343a40;
   font-weight:bold;
 }
 
 a{
-color: black;
+color: white;
 }
+
+
 
 .nav-pills .nav-link.active {
-  background-color: #BF17AD;
-}
-
-body{
-    background-color:#F0F0F0;
+  background-color: black;
 }
