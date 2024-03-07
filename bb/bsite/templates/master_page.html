@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V5</title>
+	<title>Master page</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% load static %}
 <!--===============================================================================================-->
 	{% load static %}
-	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico'%}"/>
+	<link rel="icon" type="image/png" href="{% static 'images/flower-svgrepo-com.svg'%}"/>
 <!--===============================================================================================-->
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}">
@@ -44,45 +44,140 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	
+
 	<div class="limiter">
 		{% load static %}
 		<div class="container-login100" style="background-image: url('{% static 'images/bg-01.jpg'%}');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-53">
-						Sign In With
+						Карточка мастера
 					</span>
-					
+					{% for x in masters %}
 					<div class="p-t-31 p-b-9">
-						<span class="txt1">
-							Имя пользователя
-						</span>
-					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" id="username">
-						<span class="focus-input100"></span>
-					</div>
-					
-					<div class="p-t-13 p-b-9">
-						<span class="txt1">
-							Пароль
-						</span>
+							<span class="txt1">
+								{% if x.name %}
+									Имя: &nbsp; &nbsp;{{x.name}}
+								{% else %}
+									Имя: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Username is required">
 
-						<a href="#" class="txt2 bo1 m-l-5">
-							Forgot?
-						</a>
-					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" id="password" >
-						<span class="focus-input100"></span>
-					</div>
+							<span class="focus-input100"></span>
+						</div>
 
-					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
-							Sign In
-						</button>
-					</div>
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								{% if x.phone %}
+									Телефон:&nbsp; &nbsp; {{x.phone}}
+								{% else %}
+									Телефон: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Password is required">
+
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								{% if x.address %}
+									Адрес:&nbsp; &nbsp; {{x.address}}
+								{% else %}
+									Адрес: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Password is required">
+
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								{% if x.info %}
+									Дополнительная информация:&nbsp; &nbsp; {{x.info}}
+								{% else %}
+									Дополнительная информация: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Password is required">
+
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								{% if x.tg %}
+									Telegram:&nbsp; &nbsp; {{x.tg}}
+								{% else %}
+									Telegram: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Password is required">
+
+							<span class="focus-input100"></span>
+						</div>
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								{% if x.wa%}
+									WhatsApp: &nbsp; &nbsp;{{x.wa}}
+								{% else %}
+									WhatsApp: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Password is required">
+
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								{% if x.ig%}
+									Instagram: &nbsp;{{x.ig}}
+								{% else %}
+									Instagram: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Password is required">
+
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="p-t-13 p-b-9">
+							<span class="txt1">
+								{% if x.vk %}
+									VK: &nbsp; &nbsp;{{x.vk}}
+								{% else %}
+									VK: &mdash;
+								{% endif %}
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Password is required">
+
+							<span class="focus-input100"></span>
+						</div>
+						<div class="container-login100-form-btn m-t-17">
+
+								<button class="login100-form-btn" style="font-family: Montserrat-Medium;">
+								<a href="settings/{{x.master_id}}" style="font-size: 18px; font-family: Montserrat-Medium; color: white;" >	Изменить информацию</a>
+								</button>
+						</div>
+
+						<div class="container-login100-form-btn m-t-17">
+
+								<button class="login100-form-btn" style="font-family: Montserrat-Medium;">
+									<a href="gallery/{{ x.master_id}}" style="font-size: 20px; font-family: Montserrat-Medium; color: white;">Мои примеры работ</a>
+								</button>
+						</div>
+					{% endfor %}
 				</form>
 			</div>
 		</div>

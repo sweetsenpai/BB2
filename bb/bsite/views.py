@@ -10,11 +10,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 import secrets
 import string
 
+
 def create_password():
     alphabet = string.ascii_letters + string.digits
     password = ''.join(secrets.choice(alphabet) for i in range(10))
     return password
-
 
 
 def index_page(request):
@@ -84,7 +84,7 @@ def subcat_dv(request, pk):
 
 
 def masters(request):
-    records = {'masters': Masters.objects.prefetch_related()}
+    records = {'masters': Masters.objects.prefetch_related().order_by('-master_id')}
     template = loader.get_template('masters.html')
     if request.method == 'POST':
         if request.POST.get('delete_button') is not None:
@@ -107,7 +107,7 @@ def masters_dv(request, pk):
     if not request.user.is_superuser:
         return redirect('not_authorized')
 
-    records = {'masters': Masters.objects.filter(sub_master=pk).all().values()}
+    records = {'masters': Masters.objects.filter(sub_master=pk).all().values().order_by('-master_id')}
     template = loader.get_template('master.html')
     if request.method == 'POST':
         if request.POST.get('delete_button') is not None:
@@ -137,21 +137,25 @@ def masters_dv(request, pk):
 
 
 def master_page(request, pk):
-
-    if request.user.is_superuser or request.user.is_authenticated:
-        return render(request, 'master_page.html')
-    else:
+    if not request.user.is_superuser or not request.user.is_authenticated:
         return redirect('not_authorized')
+    records = {'masters': [Masters.objects.get(master_id=pk)]}
+    print(records['masters'])
+    template = loader.get_template('master_page.html')
+    return HttpResponse(template.render(records, request))
 
 
-def images(request):
+def settings(request, pk):
+    return render(request, 'images.html')
+
+
+def images(request, pk):
     return render(request, 'images.html')
 
 
 def logginpage(request):
     context = {}
     if request.method == 'POST':
-        print('---------------------------')
         if request.POST.get('username') is not None and request.POST.get('password') is not None:
             username = request.POST.get('username')
             password = request.POST.get('password')
