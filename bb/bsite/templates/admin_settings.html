@@ -51,9 +51,9 @@
 		{% load static %}
 		<div class="container-login100" style="background-image: url('{% static 'images/bg-01.jpg'%}');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form class="login100-form validate-form flex-sb flex-w" method="post">{% csrf_token %}
 					<span class="login100-form-title p-b-53">
-						Карточка мастера
+						Карточка мастера Админ
 						<p  style="font-size: 15px; font-family: Montserrat-Medium;">*Заполняйте только требуемые поля.</p>
 					</span>
 
@@ -156,10 +156,27 @@
 							  {% endif %}
 						  </textarea>
 						</div>
+						{% for sub in subcategories  %}
+							{% if sub.sub_name in connected %}
+								<div class="form-check">
+								  <input class="form-check-input" checked type="checkbox" value="{{sub.sub_id}}" name="info" id="{{sub.sub_id}}">
+								  <label class="form-check-label" for="flexCheckDefault">
+									  {{sub.sub_name}}
+								  </label>
+								</div>
+							{% else %}
+								<div class="form-check">
+								  <input class="form-check-input"  type="checkbox" value="{{sub.sub_id}}" name="info" id="{{sub.sub_id}}">
+								  <label class="form-check-label" for="flexCheckDefault">
+									  {{sub.sub_name}}
+								  </label>
+								</div>
+							{% endif %}
+						{% endfor %}
 						<div class="container-login100-form-btn m-t-17">
 
 								<button class="login100-form-btn" style="font-family: Montserrat-Medium;" type="submit">
-								<a href="settings/{{x.master_id}}" style="font-size: 20px; font-family: Montserrat-Medium; color: white;" >Сохранить</a>
+								Сохранить
 								</button>
 						</div>
 
@@ -169,6 +186,7 @@
 									<a href="gallery/{{ x.master_id}}" style="font-size: 20px; font-family: Montserrat-Medium; color: white;">Мои примеры работ</a>
 								</button>
 						</div>
+
 					{% endfor %}
 				</form>
 			</div>

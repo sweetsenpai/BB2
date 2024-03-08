@@ -14,7 +14,7 @@ class Categories(models.Model):
 
 class Subcategories(models.Model):
     sub_id = models.AutoField(primary_key=True)
-    sub_cat = models.OneToOneField(Categories, on_delete=models.CASCADE,)
+    sub_cat = models.ForeignKey(Categories, on_delete=models.CASCADE,)
     sub_name = models.CharField(max_length=200, help_text='Добавь новую подкатегорию')
 
     def __str__(self):

@@ -140,13 +140,40 @@ def master_page(request, pk):
     if not request.user.is_superuser or not request.user.is_authenticated:
         return redirect('not_authorized')
     records = {'masters': [Masters.objects.get(master_id=pk)]}
-    print(records['masters'])
     template = loader.get_template('master_page.html')
     return HttpResponse(template.render(records, request))
 
 
 def settings(request, pk):
-    return render(request, 'images.html')
+    if request.user.is_superuser:
+        template = loader.get_template('admin_settings.html')
+    elif request.user.is_authenticated:
+        template = loader.get_template('settings.html')
+    else:
+        return redirect('not_authorized')
+    ass_sub = str(Masters.objects.prefetch_related().get(master_id=pk)).replace('(', '').replace(')', '').split(',')[10:]
+    master = Masters.objects.get(master_id=pk)
+    records = {'masters': [master], 'subcategories': Subcategories.objects.all().order_by('sub_id').values(), 'connected': ass_sub}
+    if request.method == 'POST':
+        master = Masters.objects.get(master_id=12)
+        objects = master.sub_master.all()
+        print(objects)
+        list_sub = request.POST.getlist('sub')
+#        print(list_sub)
+        if list_sub == ass_sub:
+            pass
+        else:
+            ...
+
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        info = request.POST.get('info')
+        tg = request.POST.get('tg')
+        vk = request.POST.get('vk')
+        wa = request.POST.get('wa')
+        ig = request.POST.get('ig')
+    return HttpResponse(template.render(records, request))
 
 
 def images(request, pk):
