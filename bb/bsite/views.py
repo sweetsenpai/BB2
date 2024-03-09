@@ -7,6 +7,7 @@ from .models import Categories, Subcategories, Masters, Images, Admin
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
+from .forms import SettingsForm
 import secrets
 import string
 
@@ -151,28 +152,45 @@ def settings(request, pk):
         template = loader.get_template('settings.html')
     else:
         return redirect('not_authorized')
-    ass_sub = str(Masters.objects.prefetch_related().get(master_id=pk)).replace('(', '').replace(')', '').split(',')[10:]
-    master = Masters.objects.get(master_id=pk)
-    records = {'masters': [master], 'subcategories': Subcategories.objects.all().order_by('sub_id').values(), 'connected': ass_sub}
-    if request.method == 'POST':
-        master = Masters.objects.get(master_id=12)
-        objects = master.sub_master.all()
-        print(objects)
-        list_sub = request.POST.getlist('sub')
-#        print(list_sub)
-        if list_sub == ass_sub:
-            pass
-        else:
-            ...
 
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        address = request.POST.get('address')
-        info = request.POST.get('info')
-        tg = request.POST.get('tg')
-        vk = request.POST.get('vk')
-        wa = request.POST.get('wa')
-        ig = request.POST.get('ig')
+    master = Masters.objects.get(master_id=pk)
+    s_m = master.sub_master.all()
+    connected_subs = []
+    for sub in s_m:
+        connected_subs.append(sub.sub_name)
+
+    records = {'masters': [master], 'subcategories': Subcategories.objects.all().order_by('sub_id').values(), 'connected': connected_subs}
+    if request.method == 'POST':
+        checked_subs = request.POST.getlist('sub')
+
+        for sub_id in checked_subs:
+            sub = Subcategories.objects.get(sub_id=sub_id)
+            master.sub_master.add(sub)
+            master.save()
+
+        for sub_name in connected_subs:
+            sub = Subcategories.objects.get(sub_name=sub_name)
+            if str(sub.sub_id) not in checked_subs:
+                master.sub_master.remove(sub)
+
+        if request.POST.get('name') is not None or str(request.POST.get('name')).replace(' ', '') != '' or master.name != request.POST.get('name'):
+            master.name = request.POST.get('name')
+        if request.POST.get('phone') is not None or str(request.POST.get('phone')).replace(' ', '') != '' or master.phone != request.POST.get('phone'):
+            master.phone = request.POST.get('phone')
+        if request.POST.get('address') is not None or str(request.POST.get('address')).replace(' ', '') != '' or master.address != request.POST.get('address'):
+            master.address = request.POST.get('address')
+        if request.POST.get('info') is not None or str(request.POST.get('info')).replace(' ', '') != '' or master.info != request.POST.get('info'):
+            master.info = request.POST.get('info')
+        if request.POST.get('tg') is not None or str(request.POST.get('tg')).replace(' ', '') != '' or master.tg != request.POST.get('tg'):
+            master.tg = request.POST.get('tg')
+        if request.POST.get('vk') is not None or str(request.POST.get('vk')).replace(' ', '') != '' or master.vk != request.POST.get('vk'):
+            master.vk = request.POST.get('vk')
+        if request.POST.get('wa') is not None or str(request.POST.get('wa')).replace(' ', '') != '' or master.wa != request.POST.get('wa'):
+            master.wa = request.POST.get('wa')
+        if request.POST.get('ig') is not None or str(request.POST.get('ig')).replace(' ', '') != '' or master.ig != request.POST.get('ig'):
+            master.ig = request.POST.get('ig')
+        master.save()
+        # return redirect(f'/bsite/master_page/{pk}')
     return HttpResponse(template.render(records, request))
 
 

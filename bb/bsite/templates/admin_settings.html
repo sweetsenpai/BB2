@@ -62,7 +62,7 @@
 								  <div class="input-group-prepend">
 									<span class="input-group-text">Имя&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</span>
 								  </div>
-								  <input type="text" class="form-control" id="name" placeholder="{{x.name}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+								  <input type="text" class="form-control" name="name" value="{{ x.name }}" placeholder="{{ x.name }}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								</div>
 
 
@@ -71,9 +71,9 @@
 									<span class="input-group-text">Телефон</span>
 								  </div>
 								{% if x.phone %}
-									<input type="text" class="form-control" id="phone" placeholder="{{x.phone}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="phone" value="{{x.phone}}" placeholder="{{x.phone}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% else %}
-									<input type="text" class="form-control" placeholder="Ваш телефон" id="phone" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" placeholder="Ваш телефон" name="phone" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% endif %}
 						</div>
 						<div class="input-group mb-3">
@@ -81,9 +81,9 @@
 									<span class="input-group-text" >Адрес &nbsp;&nbsp; &nbsp;</span>
 								  </div>
 								{% if x.address %}
-									<input type="text" class="form-control" id="address" placeholder="{{x.address}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="address" value="{{x.address}}" placeholder="{{x.address}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% else %}
-									<input type="text" class="form-control" placeholder="Ваш адрес" id="address" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" placeholder="Ваш адрес" name="address" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% endif %}
 						</div>
 						<div class="input-group mb-3" style="margin:1px;">
@@ -94,9 +94,9 @@
 																	</svg>&nbsp; &nbsp;&nbsp; &nbsp;</span>
 														  </div>
 								{% if x.tg %}
-									<input type="text" class="form-control" id="tg" placeholder="{{x.address}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="tg" value="{{x.tg}}" placeholder="{{x.tg}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% else %}
-									<input type="text" class="form-control" id="tg" placeholder="Ваш акаунт в telegram" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="tg" placeholder="Ваш акаунт в telegram" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% endif %}
 						</div>
 
@@ -108,9 +108,9 @@
 										</svg>&nbsp; &nbsp;&nbsp; &nbsp;</span>
 								  </div>
 								{% if x.wa%}
-									<input type="text" class="form-control" id="wa" placeholder="{{x.wa}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="wa" value="{{x.wa}}" placeholder="{{x.wa}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% else %}
-									<input type="text" class="form-control" id="wa" placeholder="Ваш акаунт в whatsapp" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="wa" placeholder="Ваш акаунт в whatsapp" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% endif %}
 						</div>
 
@@ -123,9 +123,9 @@
 										</svg>&nbsp; &nbsp; &nbsp;</span>
 								  </div>
 								{% if x.ig%}
-									<input type="text" class="form-control" id="ig" placeholder="{{x.ig}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="ig" value="{{x.ig}}" placeholder="{{x.ig}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% else %}
-									<input type="text" class="form-control" id="ig" placeholder="Ваш акаунт в instagram" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="ig" placeholder="Ваш акаунт в instagram" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% endif %}
 						</div>
 
@@ -139,9 +139,9 @@
 										&nbsp; &nbsp;</span>
 								  </div>
 								{% if x.vk%}
-									<input type="text" class="form-control" id="vk" placeholder="{{x.ig}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="vk" value="{{x.vk}}" placeholder="{{x.vk}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% else %}
-									<input type="text" class="form-control" id="vk" placeholder="Ваш акаунт в vk" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+									<input type="text" class="form-control" name="vk" placeholder="Ваш акаунт в vk" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 								{% endif %}
 						</div>
 
@@ -150,29 +150,27 @@
 						  <div class="input-group-prepend">
 							<span class="input-group-text"><br>Дополнительна<br>информация<br></span>
 						  </div>
-						  <textarea class="form-control" aria-label="With textarea">
+						  <textarea class="form-control" aria-label="With textarea" name="info">
 							  {% if x.info %}
 							  		{{x.info}}
 							  {% endif %}
 						  </textarea>
 						</div>
-						{% for sub in subcategories  %}
-							{% if sub.sub_name in connected %}
-								<div class="form-check">
-								  <input class="form-check-input" checked type="checkbox" value="{{sub.sub_id}}" name="info" id="{{sub.sub_id}}">
-								  <label class="form-check-label" for="flexCheckDefault">
-									  {{sub.sub_name}}
-								  </label>
-								</div>
-							{% else %}
-								<div class="form-check">
-								  <input class="form-check-input"  type="checkbox" value="{{sub.sub_id}}" name="info" id="{{sub.sub_id}}">
-								  <label class="form-check-label" for="flexCheckDefault">
-									  {{sub.sub_name}}
-								  </label>
-								</div>
-							{% endif %}
-						{% endfor %}
+						<div class="container-login100-form-btn m-t-17">
+							{% for sub in subcategories  %}
+								{% if sub.sub_name in connected %}
+									<div class="form-check">
+									  <input class="form-check-input"  checked type="checkbox" value="{{sub.sub_id}}" name="sub" id="{{sub.sub_id}}">
+									  <label class="form-check-label" for="flexCheckDefault" >{{sub.sub_name}}&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</label>
+									</div>
+								{% else %}
+									<div class="form-check">
+									  <input class="form-check-input"   type="checkbox" value="{{sub.sub_id}}" name="sub" id="{{sub.sub_id}}">
+									  <label class="form-check-label" for="flexCheckDefault" >{{sub.sub_name}}&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</label>
+									</div>
+								{% endif %}
+							{% endfor %}
+						</div>
 						<div class="container-login100-form-btn m-t-17">
 
 								<button class="login100-form-btn" style="font-family: Montserrat-Medium;" type="submit">
@@ -183,7 +181,7 @@
 						<div class="container-login100-form-btn m-t-17">
 
 								<button class="login100-form-btn" style="font-family: Montserrat-Medium;">
-									<a href="gallery/{{ x.master_id}}" style="font-size: 20px; font-family: Montserrat-Medium; color: white;">Мои примеры работ</a>
+									<a href="gallery/{{ x.master_id}}" style="font-size: 20px; font-family: Montserrat-Medium; color: white;">Примеры работ</a>
 								</button>
 						</div>
 
