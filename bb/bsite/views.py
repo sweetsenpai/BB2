@@ -1,13 +1,12 @@
-import django.db
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Categories, Subcategories, Masters, Images, Admin
+from .models import Categories, Subcategories, Masters, Admin
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import SettingsForm
+from .image_upload import upload_image
 import secrets
 import string
 
@@ -190,12 +189,17 @@ def settings(request, pk):
         if request.POST.get('ig') is not None or str(request.POST.get('ig')).replace(' ', '') != '' or master.ig != request.POST.get('ig'):
             master.ig = request.POST.get('ig')
         master.save()
-        # return redirect(f'/bsite/master_page/{pk}')
+        return redirect(f'/bsite/master_page/{pk}')
     return HttpResponse(template.render(records, request))
 
 
-def images(request, pk):
-    return render(request, 'images.html')
+def gallery(request, pk=10):
+    if request.method == 'POST':
+        print(type(request.FILES['file'].file.read()))
+        # for file in request.FILES.getlist('files[]'):
+        #     print(type(file))
+
+    return render(request, 'gallery.html')
 
 
 def logginpage(request):
