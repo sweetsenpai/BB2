@@ -6,8 +6,8 @@ storage = ImageKit(
 )
 
 
-def upload_image(image_data):
+def upload_image(image_data, file_name):
 
-    image = storage.upload_file(file_name='123.jpg', file=image_data)  # Сохраняем изображение с указанными параметрами
+    image = storage.upload_file(file_name=file_name, file=image_data)  # Сохраняем изображение с указанными параметрами
     return image.url
 

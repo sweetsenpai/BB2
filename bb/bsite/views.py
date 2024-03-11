@@ -1,3 +1,4 @@
+import django.utils.datastructures
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -6,6 +7,7 @@ from .models import Categories, Subcategories, Masters, Admin
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
+import codecs
 from .image_upload import upload_image
 import secrets
 import string
@@ -193,11 +195,14 @@ def settings(request, pk):
     return HttpResponse(template.render(records, request))
 
 
-def gallery(request, pk=10):
+def gallery(request, pk):
     if request.method == 'POST':
-        print(type(request.FILES['file'].file.read()))
-        # for file in request.FILES.getlist('files[]'):
-        #     print(type(file))
+        try:
+            file_data = request.FILES['file'].file.read()
+            encoded_data = codecs.encode(file_data, 'base64')
+            img_url = upload_image(image_data=encoded_data, file_name='test.jpg')
+        except django.utils.datastructures.MultiValueDictKeyError:
+            ...
 
     return render(request, 'gallery.html')
 
