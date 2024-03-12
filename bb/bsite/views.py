@@ -134,7 +134,6 @@ def masters_dv(request, pk):
             else:
                 visability = True
             master = Masters.objects.get(master_id=request.POST.get('change_button'))
-            print(master)
             master.visability = visability
             master.save()
     return HttpResponse(template.render(records, request))
@@ -142,8 +141,17 @@ def masters_dv(request, pk):
 
 def master_page(request, pk):
     if request.user.is_authenticated:
-        records = {'masters': [Masters.objects.get(master_id=pk)]}
-        template = loader.get_template('master_page.html')
+        master = Masters.objects.get(master_id=pk)
+        records = {'masters': [master]}
+        if request.user.is_superuser:
+            s_m = master.sub_master.all()
+            connected_subs = []
+            for sub in s_m:
+                connected_subs.append(sub.sub_name)
+            records['connected'] = connected_subs
+            template = loader.get_template('master_page_admin.html')
+        else:
+            template = loader.get_template('master_page.html')
         return HttpResponse(template.render(records, request))
     else:
         return redirect('not_authorized')
@@ -203,6 +211,8 @@ def gallery(request, pk):
     master_images = Images.objects.filter(master_img=pk).all().values()
     context = {'images': master_images}
     if request.method == 'POST':
+        if request.POST.get('back') is not None:
+            return redirect(f'/bsite/master_page/{pk}')
         if request.POST.get('delete_button') is not None:
             image_delet = Images.objects.get(img_id=request.POST.get('delete_button'))
             storage.delete_file(file_id=image_delet.file_id)
