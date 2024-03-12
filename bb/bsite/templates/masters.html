@@ -6,11 +6,25 @@
   <div class="table-responsive" style="padding: 1em;">
         <table class="table  table-hover table-dark">
       <thead>
+      <form method="post">
+        <tr>
+            <th colspan="6">
+                <form method="post">{% csrf_token %}
+                      <div class="input-group mb-3">
+                        <input type="text" name="newdata" class="form-control" placeholder="Добавить новую запись" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button  type="submit" class="btn btn-success" name='add_button'>Добавить</button>
+                        </div>
+                      </div>
+                </form>
+            </th>
+      </tr>
+      </form>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Имя</th>
           <th scope="col" >Пароль</th>
-          <th scope="col" >Подкатегории</th>
+          <th scope="col" >Видимость</th>
           <th scope="col">Изменить</th>
           <th scope="col">Удалить</th>
         </tr>

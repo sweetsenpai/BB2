@@ -1,21 +1,21 @@
 import django.utils.datastructures
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Categories, Subcategories, Masters, Admin
+from .models import Categories, Subcategories, Masters, Admin, Images
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 import codecs
-from .image_upload import upload_image
+from .image_upload import upload_image, storage
 import secrets
 import string
 
 
 def create_password():
     alphabet = string.ascii_letters + string.digits
-    password = ''.join(secrets.choice(alphabet) for i in range(10))
+    password = ''.join(secrets.choice(alphabet) for i in range(19))
     return password
 
 
@@ -76,7 +76,6 @@ def subcat_dv(request, pk):
         elif request.POST.get('change_button') is not None:
             subcat_update = Subcategories.objects.get(sub_id=request.POST.get('change_button'))
             subcat_update.sub_name = request.POST.get('newname')
-            print(subcat_update)
             subcat_update.save()
         elif request.POST.get('add_button') is not None:
             if request.POST.get('newdata') != '':
@@ -86,19 +85,22 @@ def subcat_dv(request, pk):
 
 
 def masters(request):
-    records = {'masters': Masters.objects.prefetch_related().order_by('-master_id')}
+    records = {'masters': Masters.objects.all().order_by('-master_id')}
     template = loader.get_template('masters.html')
     if request.method == 'POST':
-        if request.POST.get('delete_button') is not None:
+        if request.POST.get('add_button') is not None:
+            if request.POST.get('newdata') != '':
+                new_master = Masters(name=request.POST.get('newdata'), username=create_password(), password=create_password())
+                new_master.save()
+        elif request.POST.get('delete_button') is not None:
             Masters.objects.get(master_id=request.POST.get('delete_button')).delete()
-        if request.POST.get('change_button') is not None:
+        elif request.POST.get('change_button') is not None:
 
             if not request.POST.getlist('visability'):
                 visability = False
             else:
                 visability = True
             master = Masters.objects.get(master_id=request.POST.get('change_button'))
-            print(master)
             master.visability = visability
             master.save()
 
@@ -121,11 +123,11 @@ def masters_dv(request, pk):
                 ...
         if request.POST.get('add_button') is not None:
             if request.POST.get('newdata') != '':
-                new_subcat = Masters(name=request.POST.get('newdata'), password=create_password())
+                new_master = Masters(name=request.POST.get('newdata'), username=create_password(), password=create_password())
                 sub = Subcategories.objects.get(sub_id=pk)
-                new_subcat.save()
-                new_subcat.sub_master.add(sub)
-                new_subcat.save()
+                new_mastert.save()
+                new_master.sub_master.add(sub)
+                new_master.save()
         if request.POST.get('change_button') is not None:
             if not request.POST.getlist('visability'):
                 visability = False
@@ -139,11 +141,12 @@ def masters_dv(request, pk):
 
 
 def master_page(request, pk):
-    if not request.user.is_superuser or not request.user.is_authenticated:
+    if request.user.is_authenticated:
+        records = {'masters': [Masters.objects.get(master_id=pk)]}
+        template = loader.get_template('master_page.html')
+        return HttpResponse(template.render(records, request))
+    else:
         return redirect('not_authorized')
-    records = {'masters': [Masters.objects.get(master_id=pk)]}
-    template = loader.get_template('master_page.html')
-    return HttpResponse(template.render(records, request))
 
 
 def settings(request, pk):
@@ -196,50 +199,69 @@ def settings(request, pk):
 
 
 def gallery(request, pk):
-    if request.method == 'POST':
-        try:
-            file_data = request.FILES['file'].file.read()
-            encoded_data = codecs.encode(file_data, 'base64')
-            img_url = upload_image(image_data=encoded_data, file_name='test.jpg')
-        except django.utils.datastructures.MultiValueDictKeyError:
-            ...
 
-    return render(request, 'gallery.html')
+    master_images = Images.objects.filter(master_img=pk).all().values()
+    context = {'images': master_images}
+    if request.method == 'POST':
+        if request.POST.get('delete_button') is not None:
+            image_delet = Images.objects.get(img_id=request.POST.get('delete_button'))
+            storage.delete_file(file_id=image_delet.file_id)
+            Images.objects.get(img_id=request.POST.get('delete_button')).delete()
+        else:
+            try:
+                file_data = request.FILES['file'].file.read()
+                encoded_data = codecs.encode(file_data, 'base64')
+                upload_img_data = upload_image(image_data=encoded_data, file_name=f'{pk}_{len(master_images) + 1}.jpg')
+                description = request.POST.get('description')
+                new_image = Images(master_img=Masters.objects.get(master_id=pk), img_url=upload_img_data[0], file_id=upload_img_data[1], description=description)
+                new_image.save()
+            except django.utils.datastructures.MultiValueDictKeyError:
+                pass
+
+        return redirect(f'/bsite/master_page/gallery/{pk}')
+    return render(request, 'gallery.html', context)
 
 
 def logginpage(request):
     context = {}
     if request.method == 'POST':
         if request.POST.get('username') is not None and request.POST.get('password') is not None:
-            username = request.POST.get('username')
+            name = request.POST.get('username')
             password = request.POST.get('password')
             try:
-                admin = Admin.objects.filter(admin_name=username).filter(admin_password=password).get()
+                admin = Admin.objects.get(admin_name=name, admin_password=password)
                 user = authenticate(username=admin.admin_name, password=admin.admin_password)
                 if user is None:
                     User.objects.create_superuser(username=admin.admin_name, password=admin.admin_password)
+                    user = authenticate(username=admin.admin_name, password=admin.admin_password)
                 login(request, user)
                 return redirect('index_page')
             except ObjectDoesNotExist:
                 try:
-                    master = Masters.objects.filter(name=username).filter(password=password).get()
-                    user = authenticate(username=master.name, password=master.password)
+                    master = Masters.objects.get(name=name, password=password)
+                    user = authenticate(username=master.username, password=master.password)
                     if user is None:
-                        user = User.objects.create_user(username=master.name, password=master.password)
+                        User.objects.create_user(username=master.username, password=master.password)
+                        user = authenticate(username=master.username, password=master.password)
                     login(request, user)
-                    return redirect('master_page')
-
+                    return redirect(f'/bsite/master_page/{master.master_id}')
                 except ObjectDoesNotExist:
                     messages.success(request, 'Имя пользователя или пароль не найдены!')
     return render(request, 'loggin.html', context)
 
 
+def logoutpage(request):
+    logout(request)
+    return redirect('logginpage')
+
+
 def not_authorized(request):
-    return render(request, 'not_authorized.html')
+    return redirect('logginpage')
 
 
-# TODO ЛИЧНАЯ СТРАНИЦА
-# TODO ЗАГРУЗКА ПИКЧ
+# TODO дебаг страницы настроек для мастера и админа
+# TODO тест всего приложения
+# TODO БОТ
 # TODO ХОСТИНГ
 # TODO SSL
 

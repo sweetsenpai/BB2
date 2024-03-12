@@ -51,20 +51,42 @@
 		{% load static %}
 		<div class="container-login100" style="background-image: url('{% static 'images/bg-01.jpg'%}');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w" method="post" enctype="multipart/form-data">{% csrf_token %}
+				<form class="login100-form validate-form flex-sb flex-w" method="post" enctype="multipart/form-data"> {% csrf_token %}
 					<span class="login100-form-title p-b-53">
 						Примеры ваших работ
-						<p  style="font-size: 15px; font-family: Montserrat-Medium;">*Заполняйте только требуемые поля.</p>
 					</span>
+					{% if images %}
+						<table class="table table-hover">
+						<thead>
+						<tr>
+							<th scope="col">Изображение</th>
+							<th scope="col">Описание</th>
+							<th scope="col">Удалить</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for image_data in images %}
+
+
+							<tr>
+								<td><img style='max-width: 100%;' src={{image_data.img_url}} class="rounded float-start" alt="..."></td>
+								<td>{{image_data.description}}</td>
+								<td><button type="submit" name="delete_button" class="btn btn-danger" value='{{ image_data.img_id}}'>Удалить</button></td>
+							</tr>
+
+						{% endfor %}
+						</tbody>
+						</table>
+					{% endif %}
                         <div class="mb-3">
-                          <label for="formFile" class="form-label">Default file input example</label>
+                          <label for="formFile" class="form-label">Добавьте новое изображение и описание</label>
                           <input class="form-control" name='file' type="file" id="formFile">
                         </div>
 						<div class="input-group mb-3">
 						  <div class="input-group-prepend">
 							<span class="input-group-text" id="inputGroup-sizing-default">Описание</span>
 						  </div>
-						  <input  type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+						  <input  type="text"  id='description' name="description" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
 						</div>
 					<div class="wrap-input100 validate-input" data-validate = "Username is required">
 						<span class="focus-input100"></span>
@@ -75,6 +97,14 @@
 								Сохранить
 								</button>
 						</div>
+
+						<div class="container-login100-form-btn m-t-17">
+
+								<button class="login100-form-btn" style="font-family: Montserrat-Medium;" type="submit">
+								Назад
+								</button>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
