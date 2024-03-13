@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %} Категории{% endblock %}
+{% block href3 %} active {% endblock href3 %}
+
+{% block content %}
+  <div class="table-responsive" style="padding: 1em;">
+        <table class="table  table-hover table-dark">
+      <thead>
+      <form method="post">
+        <tr>
+            <th colspan="6">
+                <form method="post">{% csrf_token %}
+                      <div class="input-group mb-3">
+                        <input type="text" name="newdata" class="form-control" placeholder="Добавить новую запись" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button  type="submit" class="btn btn-success" name='add_button'>Добавить</button>
+                        </div>
+                      </div>
+                </form>
+            </th>
+      </tr>
+      </form>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Имя</th>
+          <th scope="col" >Пароль</th>
+          <th scope="col" >Видимость</th>
+          <th scope="col">Изменить</th>
+          <th scope="col">Удалить</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for x in masters %}
+          <tr>
+              <form  method="post">{% csrf_token %}
+                  <td>
+                      <a href="images/{{x.master_id}}">
+                        <button type="button" class="btn btn-info" style="text-align:justify">{{ x.master_id}}</button>
+                      </a>
+                  </td>
+                  <td><a href="/bsite/master_page/{{ x.master_id}}" style="color: white;">{{ x.name }}</a></td>
+                  <td>{{x.password}}</td>
+                    {% if x.visability %}
+                          <td style="text-align: center;">
+                              <div class="form-check">
+                                  <input class="form-check-input" checked name="visability" type="checkbox" value="True" id="flexCheckDefault">
+                                  <label class="form-check-label" for="flexCheckDefault">
+
+                                  </label>
+                                </div>
+                          </td>
+                    {% else %}
+                        <td style="text-align: center;">
+                              <div class="form-check">
+                                  <input class="form-check-input"  name="visability" type="checkbox" value="False" id="flexCheckDefault">
+                                  <label class="form-check-label" for="flexCheckDefault">
+
+                                  </label>
+                                </div>
+                          </td>
+                    {% endif %}
+                  <td>
+                      <button type="submit" name='change_button' class="btn btn-warning" value='{{ x.master_id }}'>Изменить</button>
+                  </td>
+                  <td>
+                       <button type="submit" name="delete_button" class="btn btn-danger" value='{{ x.master_id}}'>Удалить</button>
+                  </td>
+              </form>
+          </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %} Категории{% endblock %}
+{% block href2 %} active {% endblock href2 %}
+
+{% block content %}
+  <div class="table-responsive" style="padding: 1em;">
+        <table class="table table-sm table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Категория_id</th>
+          <th scope="col">Подкатегория</th>
+          <th scope="col">Изменить</th>
+          <th scope="col">Удалить</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for x in sub_cat %}
+          <tr>
+              <form  method="post">{% csrf_token %}
+                  <td>
+                      <a href="masters/{{ x.sub_id }}">
+                        <button type="button" class="btn btn-info" style="text-align:justify">{{ x.sub_id }}</button>
+                      </a>
+                  <td><input type="text" readonly name="newdata" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{x.sub_cat_id}}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
+                  </td>
+                  <td><input type="text" name="newdata" class="form-control" style='width: 100%; border-box;border: none;background-color: transparent; color: #ffffff;' placeholder='{{ x.sub_name }}' aria-label="Recipient's username" aria-describedby="basic-addon2"></td>
+                  <td>
+                      <button type="submit" name='change_button' class="btn btn-warning" value='{{ x.sub_id}}'>Изменить</button>
+                  </td>
+                  <td>
+                       <button type="submit" name="delete_button" class="btn btn-danger" value='{{ x.sub_id}}'>Удалить</button>
+                  </td>
+              </form>
+          </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -1,0 +1,6 @@
+/.venv/
+*.iml
+*.xml
+/bb/bsite/migrations/
+*.pyc
+/.env

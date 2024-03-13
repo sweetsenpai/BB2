@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Master page</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+	{% load static %}
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="icon" type="image/png" href="{% static 'images/flower-svgrepo-com.svg'%}"/>
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}">
+
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css'%}">
+
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css'%}">
+
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css'%}">
+<!--===============================================================================================-->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css'%}">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css'%}">
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="limiter">
+		{% load static %}
+		<div class="container-login100" style="background-image: url('{% static 'images/bg-01.jpg'%}');">
+			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+				<form class="login100-form validate-form flex-sb flex-w" method="post" enctype="multipart/form-data"> {% csrf_token %}
+					<span class="login100-form-title p-b-53">
+						Примеры ваших работ
+					</span>
+					{% if images %}
+						<table class="table table-hover">
+						<thead>
+						<tr>
+							<th scope="col">Изображение</th>
+							<th scope="col">Описание</th>
+							<th scope="col">Удалить</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for image_data in images %}
+
+
+							<tr>
+								<td><img style='max-width: 100%;' src={{image_data.img_url}} class="rounded float-start" alt="..."></td>
+								<td>{{image_data.description}}</td>
+								<td><button type="submit" name="delete_button" class="btn btn-danger" value='{{ image_data.img_id}}'>Удалить</button></td>
+							</tr>
+
+						{% endfor %}
+						</tbody>
+						</table>
+					{% endif %}
+                        <div class="mb-3">
+                          <label for="formFile" class="form-label">Добавьте новое изображение и описание</label>
+                          <input class="form-control" name='file' type="file" id="formFile">
+                        </div>
+						<div class="input-group mb-3">
+						  <div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-default">Описание</span>
+						  </div>
+						  <input  type="text"  id='description' name="description" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+						</div>
+					<div class="wrap-input100 validate-input" data-validate = "Username is required">
+						<span class="focus-input100"></span>
+
+						<div class="container-login100-form-btn m-t-17">
+
+								<button class="login100-form-btn" style="font-family: Montserrat-Medium;" type="submit">
+								Сохранить
+								</button>
+						</div>
+
+						<div class="container-login100-form-btn m-t-17">
+								<button class="login100-form-btn" name="back" style="font-family: Montserrat-Medium;" type="submit">
+										Назад
+								</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/animsition/js/animsition.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/bootstrap/js/popper.js'%}"></script>
+	{% load static %}
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/select2/select2.min.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/daterangepicker/moment.min.js'%}"></script>
+	{% load static %}
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'vendor/countdowntime/countdowntime.js'%}"></script>
+<!--===============================================================================================-->
+	{% load static %}
+	<script src="{% static 'js/main.js'%}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
