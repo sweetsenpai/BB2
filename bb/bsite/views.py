@@ -201,6 +201,8 @@ def settings(request, pk):
             master.wa = request.POST.get('wa')
         if request.POST.get('ig') is not None or str(request.POST.get('ig')).replace(' ', '') != '' or master.ig != request.POST.get('ig'):
             master.ig = request.POST.get('ig')
+        master.need_moderation = True
+        master.need_moderation = False
         master.save()
         return redirect(f'/bsite/master_page/{pk}')
     return HttpResponse(template.render(records, request))
@@ -220,6 +222,7 @@ def gallery(request, pk):
         else:
             try:
                 file_data = request.FILES['file'].file.read()
+
                 encoded_data = codecs.encode(file_data, 'base64')
                 upload_img_data = upload_image(image_data=encoded_data, file_name=f'{pk}_{len(master_images) + 1}.jpg')
                 description = request.POST.get('description')

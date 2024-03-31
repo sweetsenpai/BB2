@@ -7,18 +7,6 @@
         <table class="table table-sm table-hover table-dark">
       <thead>
         <tr>
-            <th colspan="6">
-                <form method="post">{% csrf_token %}
-                      <div class="input-group mb-3">
-                        <input type="text" name="newdata" class="form-control" placeholder="Добавить новую запись" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button  type="submit" class="btn btn-success" name='add_button'>Добавить</button>
-                        </div>
-                      </div>
-                </form>
-            </th>
-      </tr>
-        <tr>
           <th scope="col">#</th>
           <th scope="col">Имя</th>
           <th scope="col" >Пароль</th>
@@ -32,11 +20,11 @@
           <tr>
               <form  method="post">{% csrf_token %}
                   <td>
-                      <a href="images/{{x.master_id}}">
+                      <a href="/bsite/master_page/{{ x.master_id}}" style="color: white;">
                         <button type="button" class="btn btn-info" style="text-align:justify">{{ x.master_id}}</button>
                       </a>
                   </td>
-                  <td><a href="/bsite/master_page/{{ x.master_id}}" style="color: white;">{{ x.name }}</a></td>
+                  <td>{{ x.name }}</td>
                   <td>{{x.password}}</td>
                   {% if x.visability %}
                           <td style="text-align: center;">

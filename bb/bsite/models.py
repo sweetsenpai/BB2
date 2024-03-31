@@ -35,6 +35,8 @@ class Masters(models.Model):
     password = models.CharField(max_length=20, editable=False)
     username = models.CharField(max_length=20, editable=False, default=None, null=True)
     visability = models.BooleanField(default=False)
+    need_moderation = models.BooleanField(default=False, null=True, blank=True)
+    msg_sended = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):
         return f'{self.master_id}, {self.sub_master}, {self.name}, {self.phone}, {self.address}, {self.tg}, ' \
@@ -44,8 +46,9 @@ class Masters(models.Model):
 class Images(models.Model):
     img_id = models.AutoField(primary_key=True)
     master_img = models.ForeignKey(Masters, on_delete=models.CASCADE)
-    img_url = models.CharField(max_length=100,default=None)
-    file_id =  models.CharField(max_length=100,default=None)
+    img_url = models.CharField(max_length=100, default=None)
+    file_id = models.CharField(max_length=100, default=None)
+    telegram_file_id = models.CharField(max_length=100, default=None, null=True, blank=True)
     description = models.TextField(default=None)
 
     def __str__(self):

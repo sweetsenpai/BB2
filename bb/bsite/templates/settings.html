@@ -146,15 +146,16 @@
 						</div>
 
 
-						<div class="input-group">
-						  <div class="input-group-prepend">
-							<span class="input-group-text"><br>Дополнительна<br>информация<br></span>
-						  </div>
-						  <textarea class="form-control" aria-label="With textarea" name="info">
-							  {% if x.info %}
-							  		{{x.info}}
-							  {% endif %}
-						  </textarea>
+						<div class="input-group mb-3">
+								  <div class="input-group-prepend">
+									<span class="input-group-text">Дополнительная информация</span>
+								  </div>
+								<br>
+								{% if x.info %}
+									<input type="text" class="form-control" value="{{x.info}}" name="info" placeholder="{{x.info}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+								{% else %}
+									<input type="text" class="form-control" value="{{x.info}}"  placeholder="Дпополнительная информация" name="info" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+								{% endif %}
 						</div>
 						<div class="container-login100-form-btn m-t-17">
 

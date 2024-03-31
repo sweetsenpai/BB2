@@ -34,11 +34,11 @@
           <tr>
               <form  method="post">{% csrf_token %}
                   <td>
-                      <a href="images/{{x.master_id}}">
+                        <a href="/bsite/master_page/{{ x.master_id}}" style="color: white;">
                         <button type="button" class="btn btn-info" style="text-align:justify">{{ x.master_id}}</button>
-                      </a>
+                        </a>
                   </td>
-                  <td><a href="/bsite/master_page/{{ x.master_id}}" style="color: white;">{{ x.name }}</a></td>
+                  <td>{{ x.name }}</td>
                   <td>{{x.password}}</td>
                     {% if x.visability %}
                           <td style="text-align: center;">

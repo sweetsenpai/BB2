@@ -1,8 +1,11 @@
 from imagekitio import ImageKit
+from dotenv import load_dotenv
+import os
+load_dotenv()
 storage = ImageKit(
-    private_key='private_6yiSo7pou41zMsOWBQf4RLLeYG0=',
-    public_key='public_FMSOmBrnFs/cvjqr5KgTtBwrOtQ=',
-    url_endpoint='https://ik.imagekit.io/sweetsenpai'
+    private_key=os.environ.get("PRIVATE"),
+    public_key=os.environ.get("PUBLIC"),
+    url_endpoint=os.environ.get("IMGURL")
 )
 
 

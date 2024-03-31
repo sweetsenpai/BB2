@@ -1,9 +1,34 @@
-version: "3.9"
+version: '3.8'
+
 services:
   web:
-    build: .
+    build: ./bb
+    command: gunicorn --bind 0.0.0.0:8000 config.wsgi
+    expose:  # new
+      - 8000
+    labels:  # new
+      - "traefik.enable=true"
+      - "traefik.http.routers.django.rule=Host(`django-traefik.psbot.ngner.ru`)"
+      - "traefik.http.routers.django.tls=true"
+      - "traefik.http.routers.django.tls.certresolver=letsencrypt"
+  traefik:  # new
+    build:
+      context: .
+      dockerfile: Dockerfile.traefik
     ports:
-      - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
+      - 80:80
+      - 443:443
     volumes:
-    - .:/bb
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik-public-certificates:/certificates"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard-django-traefik.psbot.ngner.ru`)"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=:"
+
+volumes:
+  traefik-public-certificates:
